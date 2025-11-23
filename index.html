@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knitting Progress - 赤いスカーフ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>赤いスカーフ</h1>
+            <p class="subtitle">The Red Scarf Journey</p>
+        </header>
+
+        <div class="timer-section">
+            <div class="timer-card">
+                <p class="timer-label">Time Spent Knitting</p>
+                <div id="timer" class="timer-display">
+                    <span id="days">0</span> days
+                    <span id="hours">0</span> hours
+                    <span id="minutes">0</span> minutes
+                </div>
+                <p class="start-date">Started: November 18, 2025</p>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-info">
+                <div class="stat">
+                    <span class="stat-number" id="rowsCompleted">0</span>
+                    <span class="stat-label">Rows Completed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="totalStitches">0</span>
+                    <span class="stat-label">Total Stitches</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="progressPercent">0%</span>
+                    <span class="stat-label">Progress</span>
+                </div>
+            </div>
+
+            <div class="scarf-container">
+                <canvas id="scarfCanvas"></canvas>
+            </div>
+
+            <div class="controls">
+                <div class="input-group">
+                    <label for="rowInput">Update Progress (Rows Completed):</label>
+                    <div class="input-controls">
+                        <input type="number" id="rowInput" min="0" max="150" value="0">
+                        <button id="updateBtn">Update</button>
+                        <button id="resetBtn" class="reset-btn">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Made with ♡ and yarn</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
