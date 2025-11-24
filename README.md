@@ -1,4 +1,4 @@
-# 赤いスカーフ - Red Scarf Knitting Progress Tracker
+Red Scarf Knitting Progress Tracker
 
 Capturing the art of slowing down, stitch by stitch.
 
