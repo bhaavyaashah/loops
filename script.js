@@ -7,6 +7,11 @@ const START_DATE = new Date('2025-11-18T00:00:00');
 let canvas, ctx;
 let currentRows = 0;
 
+// Timer animation variables
+let timerAnimationStartTime = null;
+let timerAnimationDuration = 3000; // 3 seconds animation
+let actualElapsedTime = 0;
+
 // Initialize on load
 document.addEventListener('DOMContentLoaded', function() {
     canvas = document.getElementById('scarfCanvas');
@@ -22,8 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('updateBtn').addEventListener('click', updateProgress);
     document.getElementById('resetBtn').addEventListener('click', resetProgress);
 
-    // Update timer every second
-    updateTimer();
+    // Start timer animation from zero
+    startTimerAnimation();
+
+    // Update timer every second after animation completes
     setInterval(updateTimer, 1000);
 
     // Redraw on window resize
@@ -186,17 +193,53 @@ function updateStats() {
     document.getElementById('progressPercent').textContent = `${percent}%`;
 }
 
-function updateTimer() {
+function startTimerAnimation() {
+    // Calculate the actual elapsed time
     const now = new Date();
-    const diff = now - START_DATE;
+    actualElapsedTime = now - START_DATE;
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    // Start the animation
+    timerAnimationStartTime = Date.now();
+    animateTimer();
+}
+
+function animateTimer() {
+    const currentTime = Date.now();
+    const elapsed = currentTime - timerAnimationStartTime;
+    const progress = Math.min(elapsed / timerAnimationDuration, 1);
+
+    // Easing function for smooth animation (ease-out cubic)
+    const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+
+    // Calculate the animated elapsed time
+    const animatedElapsedTime = actualElapsedTime * easeOutCubic;
+
+    // Update the display
+    displayTime(animatedElapsedTime);
+
+    // Continue animation if not complete
+    if (progress < 1) {
+        requestAnimationFrame(animateTimer);
+    } else {
+        // Animation complete, show actual time
+        updateTimer();
+    }
+}
+
+function displayTime(milliseconds) {
+    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
 
     document.getElementById('days').textContent = days;
     document.getElementById('hours').textContent = hours;
     document.getElementById('minutes').textContent = minutes;
+}
+
+function updateTimer() {
+    const now = new Date();
+    const diff = now - START_DATE;
+    displayTime(diff);
 }
 
 function celebrate() {
